@@ -22,8 +22,8 @@
                                     <div class="carousel-item active">
                                         <div class="d-flex justify-content-between mb-4 pb-2">
                                             <div>
-                                                <h2 class="display-2"><strong>{{round($currentWeather['main']['temp'])}}°C</strong></h2>
-                                                <p class="text-muted mb-0">{{$currentWeather['name']}}</p>
+{{--                                                <h2 class="display-2"><strong>{{round($currentWeather['main']['temp'])}}°C</strong></h2>--}}
+{{--                                                <p class="text-muted mb-0">{{$currentWeather['name']}}</p>--}}
                                             </div>
                                             <div>
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu3.webp"
@@ -142,7 +142,19 @@
                         <form>
                             <input type="search" name="search" placeholder="Szukaj miasto">
                             <button type="submit">Szukaj</button>
+                            <p class="text-center my-2">{{ session('mssg') }}</p>
                         </form>
+                        <div class="row">
+                            @foreach($cities as $city)
+                            <a class="city-small col card mb-4 pb-3 pt-2" style="border-radius: 25px; border-color: #f5f5f5; margin: 10px; background-color: #F5F5F5; text-decoration: none; color: #1a1a1a">
+                                <div class="flex-column">
+                                    <p class="small"><strong>{{ $city->name }}</strong></p>
+                                    <i class="fas fa-sun fa-2x mb-3" style="color: #ddd;"></i>
+                                    <p class="mb-0"><strong>{{round($city->data['main']['temp'])}}°C</strong></p>
+                                </div>
+                            </a>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

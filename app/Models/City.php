@@ -16,7 +16,7 @@ class City extends Model
      * @return response()
      */
     protected $fillable = [
-        'name', 'data'
+        'name', 'current_temp', 'icon', 'humidity'
     ];
 
     /**
@@ -24,11 +24,16 @@ class City extends Model
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    protected function data(): Attribute
+//    protected function data(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn ($value) => json_decode($value, true),
+//            set: fn ($value) => json_encode($value),
+//        );
+//    }
+
+    public function cities()
     {
-        return Attribute::make(
-            get: fn ($value) => json_decode($value, true),
-            set: fn ($value) => json_encode($value),
-        );
+        return $this->belongsToMany('App\User');
     }
 }

@@ -141,7 +141,7 @@
                     <div class="card-body">
                         <form>
                             <input type="search" name="search" placeholder="Szukaj miasto">
-                            <button type="submit">Szukaj</button>
+                            <button type="submit">Dodaj</button>
                             <p class="text-center my-2">{{ session('mssg') }}</p>
                         </form>
                         <div class="row">
@@ -150,7 +150,7 @@
                                 <div class="flex-column">
                                     <p class="small"><strong>{{ $city->name }}</strong></p>
                                     <i class="fas fa-sun fa-2x mb-3" style="color: #ddd;"></i>
-                                    <p class="mb-0"><strong>{{round($city->data['main']['temp'])}}°C</strong></p>
+                                    <p class="mb-0"><strong>{{ $city->current_temp }}°C</strong></p>
                                 </div>
                             </a>
                             @endforeach

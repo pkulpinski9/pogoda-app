@@ -22,4 +22,5 @@ Auth::routes();
 //Route::get('/home', [App\Http\Controllers\CityController::class, 'show'])->name('city1');
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\CityController::class, 'index'])->name('cityy');
+Route::get('/detailed_weather/{city}', [App\Http\Controllers\CityController::class, 'show'])->name('detailed_weather');
 

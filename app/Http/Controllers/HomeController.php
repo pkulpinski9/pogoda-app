@@ -25,7 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $location = 'warsaw';
-        $apiKey = '94d634996e4998e7c1d0c4ed659893b3';
+        $apiKey = config('services.openweather.key');
 
         if(request('search')){
             $location = request('search');

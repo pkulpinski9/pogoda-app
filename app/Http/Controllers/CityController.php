@@ -18,7 +18,7 @@ class CityController extends Controller
         $cities = City::latest();
 
         $location = 'warsaw';
-        $apiKey = '94d634996e4998e7c1d0c4ed659893b3';
+        $apiKey = config('services.openweather.key');
 
         if(request('search')){
             $location = request('search');
@@ -38,7 +38,7 @@ class CityController extends Controller
 //            ]
 //        ];
 //        dump($response);
-        if(City::where('name', $response)->exists()){
+        if(City::where('name', $response['name'])->exists()){
             redirect('/home')->with('mssg', 'juz jest');
         }else{
             $city = City::create($response);
@@ -53,11 +53,11 @@ class CityController extends Controller
 
     }
 
-//    public function show(){
-//        $showCity = City::latest();
-//
-//        return view('home', [
-//            'showCity' => $showCity
-//        ]);
-//    }
+    public function show(City $city){
+
+        return view('detailed_weather', [
+            'cities' => City::all(),
+            'city' => $city
+        ]);
+    }
 }

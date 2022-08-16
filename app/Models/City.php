@@ -10,13 +10,8 @@ class City extends Model
 {
     use HasFactory;
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
     protected $fillable = [
-        'name', 'current_temp', 'icon', 'humidity'
+        'name', 'city_json_id', 'current_temp', 'icon', 'humidity'
     ];
 
     /**
@@ -32,8 +27,8 @@ class City extends Model
 //        );
 //    }
 
-    public function cities()
+    public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany(User::class);
     }
 }

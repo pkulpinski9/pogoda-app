@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
+            $table->integer('city_json_id')->unique();
             $table->string('name');
-            $table->integer('current_temp');
-            $table->string('icon');
-            $table->string('humidity');
+            $table->integer('current_temp')->nullable();
+            $table->string('icon')->nullable();
+            $table->string('humidity')->nullable();
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ class City extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'city_json_id', 'current_temp', 'icon', 'humidity'
+        'city_json_id', 'name', 'country', 'pressure', 'current_temp', 'icon', 'humidity'
     ];
 
     /**
@@ -19,13 +19,6 @@ class City extends Model
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-//    protected function data(): Attribute
-//    {
-//        return Attribute::make(
-//            get: fn ($value) => json_decode($value, true),
-//            set: fn ($value) => json_encode($value),
-//        );
-//    }
 
     public function users()
     {

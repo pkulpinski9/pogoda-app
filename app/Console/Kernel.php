@@ -22,8 +22,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('getWeather:current')
-            ->everyMinute()
-            ->appendOutputTo('/var/log/scheduled_weather.log');
+            ->everyThirtyMinutes();
     }
 
     /**

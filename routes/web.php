@@ -18,12 +18,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-//Route::get('/home', [App\Http\Controllers\CityController::class, 'show'])->name('city1');
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home', [App\Http\Controllers\CityController::class, 'index'])->name('cityy');
-//Route::get('/command', [App\Console\Commands\getWeather::class, 'handle']);
+Route::get('/store', [App\Http\Controllers\CityController::class, 'store'])->name('store');
+Route::get('/home', [App\Http\Controllers\CityController::class, 'index'])->name('home');
 Route::get('/detailed_weather/{city}', [App\Http\Controllers\CityController::class, 'show'])->name('detailed_weather');
 Route::get('/detach/{city}', [App\Http\Controllers\CityController::class, 'detach'])->name('detach_weather');
-Route::get('/store', [App\Http\Controllers\CityController::class, 'store'])->name('idk');
+
 

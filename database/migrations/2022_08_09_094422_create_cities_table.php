@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->integer('city_json_id')->unique();
             $table->string('name');
+            $table->string('country');
+            $table->integer('pressure')->nullable();
             $table->integer('current_temp')->nullable();
             $table->string('icon')->nullable();
-            $table->string('humidity')->nullable();
+            $table->integer('humidity')->nullable();
             $table->timestamps();
         });
     }

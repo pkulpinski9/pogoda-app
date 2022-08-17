@@ -38,13 +38,14 @@ class getWeather extends Command
             $city = City::where('city_json_id', $id)->first();
 
             $response = Http::get("https://api.openweathermap.org/data/2.5/weather?id={$id}&units=metric&appid={$apiKey}");
-//                dd($response->json());
-                $city->current_temp = round($response->json()['main']['temp']);
-                $city->icon = $response->json()['weather']['0']['icon'];
-                $city->humidity = $response->json()['main']['humidity'];
+//            dd($response->json());
+            $city->current_temp = round($response->json()['main']['temp']);
+            $city->country = $response->json()['sys']['country'];
+            $city->icon = $response->json()['weather']['0']['icon'];
+            $city->humidity = $response->json()['main']['humidity'];
+            $city->pressure = $response->json()['main']['pressure'];
 
             $city->save();
         }
-
     }
 }

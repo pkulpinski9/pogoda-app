@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Archive;
 use App\Models\City;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -46,6 +47,13 @@ class getWeather extends Command
             $city->pressure = $response->json()['main']['pressure'];
 
             $city->save();
+
+            $saveArchiveToDb = [
+                'city_id' => $city->id,
+                'old_humidity' => $city->humidity,
+                'old_temp' => $city->current_temp
+            ];
+            Archive::create($saveArchiveToDb);
         }
     }
 }

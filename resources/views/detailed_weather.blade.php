@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <section class="vh-100" style="background-color: #C1CFEA;">
         <div class="container py-5 h-100">
@@ -20,8 +19,9 @@
                                         <div class="d-flex justify-content-between mb-4 pb-2">
                                             <div>
                                                 <h2 class="display-2"><strong>{{ $city->current_temp }}°C</strong></h2>
-                                                <p class="text-muted mb-0">{{ $city->name }}</p>
+                                                <p class="text-muted mb-0" style="font-size: 20px;">{{ $city->name }}</p>
                                                 <p class="text-muted mb-0">{{ $city->country }}</p>
+                                                <p class="text-muted mb-0">Wilgotność: {{ $city->humidity }}%</p>
                                             </div>
                                             <div>
                                                 <img src="http://openweathermap.org/img/wn/{{ $city->icon }}@4x.png"width="160px">
@@ -45,23 +45,17 @@
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
-                                            <div class="flex-column">
-                                                <p class="small"><strong>Wilgotność</strong></p>
-                                                <i class="fas fa-sun fa-2x mb-3" style="color: #ddd;"></i>
-                                                <p class="mb-0"><strong>{{ $city->humidity }}</strong></p>
-                                            </div>
-                                            <div class="flex-column">
-                                                <p class="small"><strong>Ciśnienie</strong></p>
-                                                <i class="fas fa-sun fa-2x mb-3" style="color: #ddd;"></i>
-                                                <p class="mb-0"><strong>{{ $city->pressure }} hPa</strong></p>
-                                            </div>
+                                                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                                         </div>
+                                        <button class="btn btn-light" id="dataHumidity">Wykres wilgotności</button>
+                                        <button class="btn btn-light" id="dataTemp">Wykres temperatury</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col card" style="border-radius: 25px;">
                     <div class="card-body">
                         <div class="row">
@@ -78,7 +72,7 @@
                             </div>
                         </div>
                         <div class="overflow-auto">
-                            <div class="row" style="max-height: 350px; width: auto">
+                            <div class="row" style="max-height: 670px; width: auto">
                                 @foreach($user->cities as $city)
                                     <div class="city-small col card mb-4 pb-3 pt-2" style="max-width: 200px; min-width: 200px; border-radius: 25px; border-color: #f7f7f7; margin: 10px; text-decoration: none; color: #1a1a1a">
                                         <a href="/detailed_weather/{{ $city->id }}" class="city-small col card mb-4 pb-3 pt-2" style="border-radius: 25px; border-color: #f5f5f5; margin: 10px; background-color: #F5F5F5; text-decoration: none; color: #1a1a1a">
@@ -98,3 +92,42 @@
         </div>
     </section>
 @endsection
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script>
+
+    window.onload = function () {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light1", // "light1", "light2", "dark1", "dark2"
+            title:{
+                fontFamily: "Calibri",
+                text: "Wykres wilgotności w czasie"
+            },
+            axisY:{
+                includeZero: true
+            },
+            data: [{
+                type: "column", //change type to bar, line, area, pie, etc
+                indexLabel: "{y}", //Shows y value on all Data Points
+                indexLabelFontColor: "#ffffff",
+                indexLabelPlacement: "inside",
+                dataPoints: @php echo json_encode($dataHumidity) @endphp
+            }]
+        });
+        chart.render();
+
+        $("#dataHumidity").click(function () {
+            chart.options.title.text = "Wykres wilgotności w czasie";
+            chart.options.data[0].dataPoints = @php echo json_encode($dataHumidity) @endphp;
+            chart.render();
+        });
+        $("#dataTemp").click(function () {
+            chart.options.title.text = "Wykres temperatury w czasie";
+            chart.options.data[0].dataPoints = @php echo json_encode($dataTemp) @endphp;
+            chart.render();
+        });
+    }
+</script>

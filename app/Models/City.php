@@ -24,4 +24,8 @@ class City extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function archives()
+    {
+        return $this->hasMany(Archive::class);
+    }
 }

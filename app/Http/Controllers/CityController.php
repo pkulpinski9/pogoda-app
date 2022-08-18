@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Archive;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,6 @@ class CityController extends Controller
     }
     public function store()
     {
-
         $cityFirst = City::all()->first();
         $user = Auth::User();
         $apiKey = config('services.openweather.key');
@@ -52,7 +52,7 @@ class CityController extends Controller
         {
 
             $responseApi = Http::get("https://api.openweathermap.org/data/2.5/weather?q={$location}&units=metric&appid={$apiKey}");
-            $saveToDb = [
+            $saveCityToDb = [
                 'city_json_id' => $response['id'],
                 'name' => $response['name'],
                 'current_temp' => round($responseApi->json()['main']['temp']),
@@ -61,8 +61,14 @@ class CityController extends Controller
                 'humidity' => $responseApi->json()['main']['humidity'],
                 'pressure' => $responseApi->json()['main']['pressure']
             ];
+            City::create($saveCityToDb);
 
-            City::create($saveToDb);
+            $saveArchiveToDb = [
+                'city_id' => City::where('city_json_id', $city_id)->first()->id,
+                'old_humidity' => $responseApi->json()['main']['humidity'],
+                'old_temp' => round($responseApi->json()['main']['temp'])
+            ];
+            Archive::create($saveArchiveToDb);
 
         }
 
@@ -70,11 +76,26 @@ class CityController extends Controller
 
         $attach = $city->users()->syncWithoutDetaching($user);
 
-        return redirect()->route('home');
+        return redirect()->route('detailed_weather',($city));
     }
 
     public function show(City $city)
     {
+        $dataHumidity = array();
+
+        foreach($city->archives as $archive) {
+            $y = $archive->old_humidity;
+            $x = $archive->created_at->format('Y-m-d H:i:s');
+            array_push($dataHumidity, ["label" => $x, "y" => $y]);
+        }
+
+        $dataTemp = array();
+
+        foreach($city->archives as $archive) {
+            $y = $archive->old_temp;
+            $x = $archive->created_at->format('Y-m-d H:i:s');
+            array_push($dataTemp, ["label" => $x, "y" => $y]);
+        }
 
         if(request('submit') == "store") {
             return $this->store();
@@ -84,7 +105,9 @@ class CityController extends Controller
 
         return view('detailed_weather', [
             'user' => Auth::User(),
-            'city' => $city
+            'city' => $city,
+            'dataHumidity' => $dataHumidity,
+            'dataTemp' => $dataTemp
         ]);
     }
     public function detach(City $city)

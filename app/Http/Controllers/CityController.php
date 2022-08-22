@@ -115,6 +115,6 @@ class CityController extends Controller
         $user = Auth::User();
         $user->cities()->detach($city);
 
-        return $this->index();
+        return redirect()->route('home');
     }
 }

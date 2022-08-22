@@ -101,7 +101,7 @@
                 </div>
             </div>
         </div>
-        @include('layouts.scripts')
+        @include('scripts.chart')
     </section>
 @endsection
 

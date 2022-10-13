@@ -1,3 +1,16 @@
+<?php
+$dataHumidity = array();
+$dataTemp = array();
+foreach ($city->archives as $archive) {
+    $y = $archive->old_humidity;
+    $x = $archive->created_at->format('Y-m-d H:i:s');
+    $y1 = $archive->old_temp;
+    $x1 = $archive->created_at->format('Y-m-d H:i:s');
+    array_push ($dataHumidity, ["label" => $x, "y" => $y]);
+    array_push ($dataTemp, ["label" => $x1, "y" => $y1]);
+}
+?>
+
 <script>
     window.onload = function () {
 

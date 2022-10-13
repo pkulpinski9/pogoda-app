@@ -33,9 +33,6 @@ class HomeController extends Controller
 
         $response = Http::get("https://api.openweathermap.org/data/2.5/weather?q={$location}&units=metric&appid={$apiKey}");
 
-        dump($response->json());
-
-
         return view('home', [
             'currentWeather' => $response->json(),
         ]);
